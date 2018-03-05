@@ -20,7 +20,8 @@ class BurgerBuilder extends Component {
             meat: 0
         },
         totalPrice: 4,
-        atLeastOneIngredient: false
+        atLeastOneIngredient: false,
+        orderButtonClicked: false
     };
 
     updateAtLeastOneIngredient(ingredients) {
@@ -67,6 +68,18 @@ class BurgerBuilder extends Component {
         })
     };
 
+    orderButtonClickedHandler = () => {
+        this.setState({orderButtonClicked: true});
+    };
+
+    orderCanceledHandler = () => {
+        this.setState({orderButtonClicked: false});
+    };
+
+    orderContinuedHandler = () => {
+        alert('continued');
+    };
+
     render() {
         const disabledInfo = {
             ...this.state.ingredients
@@ -76,8 +89,13 @@ class BurgerBuilder extends Component {
         }
         return (
             <Fragment>
-                <Modal>
-                    <OrderSummary ingredients={this.state.ingredients}/>
+                <Modal show={this.state.orderButtonClicked} modalClosed={this.orderCanceledHandler}>
+                    <OrderSummary
+                        ingredients={this.state.ingredients}
+                        price={this.state.totalPrice}
+                        orderCanceled = {this.orderCanceledHandler}
+                        orderContinued = {this.orderContinuedHandler}
+                    />
                 </Modal>
                 <Burger ingredients={this.state.ingredients}/>
                 <BuildControls
@@ -86,6 +104,7 @@ class BurgerBuilder extends Component {
                     disabled={disabledInfo}
                     orderNowEnabled={this.state.atLeastOneIngredient}
                     price={this.state.totalPrice}
+                    ordered={this.orderButtonClickedHandler}
                 />
             </Fragment>
         );
