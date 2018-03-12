@@ -4,6 +4,7 @@ import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
 
 class App extends Component {
   render() {
+      console.log('Location: ' + window.location); //this is how to get the server address
     return (
       <div>
           <Layout>
